@@ -21,6 +21,13 @@ import {
 const FloatingCTA = () => {
   const [open, setOpen] = useState(false);
   const [activeCTA, setActiveCTA] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    preferredTime: '',
+    message: '',
+  });
 
   const handleVapiCall = () => {
     // Initialize Vapi call
@@ -32,6 +39,54 @@ const FloatingCTA = () => {
   const handleScheduleCall = () => {
     setActiveCTA('schedule');
     setOpen(true);
+  };
+
+  const handleScheduleSubmit = () => {
+    // Format preferred time if provided
+    let formattedTime = 'Not specified';
+    if (formData.preferredTime) {
+      try {
+        const date = new Date(formData.preferredTime);
+        formattedTime = date.toLocaleString('en-US', {
+          weekday: 'short',
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      } catch (e) {
+        formattedTime = formData.preferredTime;
+      }
+    }
+
+    // Prepare WhatsApp message with ALL form details
+    const whatsappMessage = encodeURIComponent(
+      `Hello Bhuvin!\n\n` +
+      `I would like to schedule a demo call for the Property Management System.\n\n` +
+      `REQUEST DETAILS:\n` +
+      `-------------------\n\n` +
+      `Name: ${formData.name}\n` +
+      `Email: ${formData.email}\n` +
+      `Phone: ${formData.phone}\n` +
+      `Preferred Time: ${formattedTime}\n` +
+      `Message: ${formData.message || 'No additional message'}\n\n` +
+      `-------------------\n\n` +
+      `Please let me know your availability. Thank you!`
+    );
+
+    // Redirect to WhatsApp with all details
+    const whatsappLink = `https://wa.me/917355635544?text=${whatsappMessage}`;
+    window.open(whatsappLink, '_blank');
+
+    setOpen(false);
+    setActiveCTA(null);
+    
+    // Reset form
+    setFormData({ name: '', email: '', phone: '', preferredTime: '', message: '' });
+    
+    // Show success message
+    alert('Redirecting to WhatsApp with all your details. Please send the message to confirm your demo call request.');
   };
 
   const handleTryAI = () => {
@@ -163,32 +218,72 @@ const FloatingCTA = () => {
           ) : (
             <Box>
               <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                Fill in your details to schedule a personalized demo call. We'll send you an email and WhatsApp message with the details.
+                Fill in your details below. All information will be sent to us via WhatsApp for scheduling your personalized demo call.
               </Typography>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Button
-                  variant="contained"
+                <TextField
+                  label="Your Name"
                   fullWidth
-                  onClick={() => {
-                    // Redirect to WhatsApp (primary action)
-                    const whatsappMessage = encodeURIComponent(
-                      `👋 Hello Bhuvin!\n\n` +
-                      `I would like to schedule a *demo call* for the Property Management System.\n\n` +
-                      `Please let me know your availability. Thank you! 🙏`
-                    );
-                    window.open(`https://wa.me/917355635544?text=${whatsappMessage}`, '_blank');
-                  }}
-                  startIcon={<CalendarIcon />}
-                >
-                  Schedule Demo Call
-                </Button>
-                <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
-                  Or contact us directly via phone or WhatsApp
-                </Typography>
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                />
+                <TextField
+                  label="Email Address"
+                  type="email"
+                  fullWidth
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                />
+                <TextField
+                  label="Phone Number"
+                  fullWidth
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  required
+                />
+                <TextField
+                  label="Preferred Time"
+                  type="datetime-local"
+                  fullWidth
+                  value={formData.preferredTime}
+                  onChange={(e) => setFormData({ ...formData, preferredTime: e.target.value })}
+                  InputLabelProps={{ shrink: true }}
+                />
+                <TextField
+                  label="Message (Optional)"
+                  multiline
+                  rows={3}
+                  fullWidth
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                />
               </Box>
             </Box>
           )}
         </DialogContent>
+        <DialogActions>
+          {activeCTA === 'schedule' && (
+            <>
+              <Button onClick={() => {
+                setOpen(false);
+                setActiveCTA(null);
+                setFormData({ name: '', email: '', phone: '', preferredTime: '', message: '' });
+              }}>
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                onClick={handleScheduleSubmit}
+                disabled={!formData.name || !formData.email || !formData.phone}
+                startIcon={<CalendarIcon />}
+              >
+                Send Details via WhatsApp
+              </Button>
+            </>
+          )}
+        </DialogActions>
       </Dialog>
     </>
   );

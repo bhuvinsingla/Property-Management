@@ -51,7 +51,25 @@ const CTASection = () => {
   };
 
   const handleScheduleSubmit = () => {
-    // Prepare WhatsApp message with all details (clean format without special characters)
+    // Format preferred time if provided
+    let formattedTime = 'Not specified';
+    if (formData.preferredTime) {
+      try {
+        const date = new Date(formData.preferredTime);
+        formattedTime = date.toLocaleString('en-US', {
+          weekday: 'short',
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      } catch (e) {
+        formattedTime = formData.preferredTime;
+      }
+    }
+
+    // Prepare WhatsApp message with ALL form details
     const whatsappMessage = encodeURIComponent(
       `Hello Bhuvin!\n\n` +
       `I would like to schedule a demo call for the Property Management System.\n\n` +
@@ -60,7 +78,7 @@ const CTASection = () => {
       `Name: ${formData.name}\n` +
       `Email: ${formData.email}\n` +
       `Phone: ${formData.phone}\n` +
-      `Preferred Time: ${formData.preferredTime || 'Not specified'}\n` +
+      `Preferred Time: ${formattedTime}\n` +
       `Message: ${formData.message || 'No additional message'}\n\n` +
       `-------------------\n\n` +
       `Please let me know your availability. Thank you!`
