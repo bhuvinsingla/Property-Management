@@ -111,6 +111,23 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 This project is open source and available under the MIT License.
 
+## Problems Solved
+
+This Property Management System addresses **7 out of 12 key problems** faced by property dealers:
+
+### ✅ Fully Solved (3 problems)
+- **Property Data Scattered & Outdated** - Centralized database with real-time updates
+- **No Proper Inventory Management** - Digital property storage and search
+- **Zero Tech Adoption** - Complete CRM-like system with automation
+
+### 🟡 Partially Solved (4 problems)
+- **Lead Quality & Fake Inquiries** - AI voice agent collects and qualifies leads
+- **Too Much Manual Follow-up** - Automated lead collection and organization
+- **Competition from Portals** - Professional 24/7 voice agent engagement
+- **Language & Communication Gaps** - AI voice agent handles diverse communication
+
+See [PROBLEMS_SOLVED.md](./PROBLEMS_SOLVED.md) for detailed problem mapping and future roadmap.
+
 ## Author
 
 Bhuvin Singla

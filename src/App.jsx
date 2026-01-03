@@ -7,6 +7,10 @@ import PropertyForm from './components/PropertyForm';
 import VoiceAgentPreview from './components/VoiceAgentPreview';
 import LeadsTable from './components/LeadsTable';
 import GoogleSheetPreview from './components/GoogleSheetPreview';
+import Documentation from './components/Documentation';
+import CTASection from './components/CTASection';
+import CaseStudy from './components/CaseStudy';
+import FloatingCTA from './components/FloatingCTA';
 import GuideBot from './components/GuideBot';
 import './App.css';
 
@@ -59,6 +63,9 @@ function App() {
               <Tab label="Voice Agent" />
               <Tab label="Leads" />
               <Tab label="Google Sheets" />
+              <Tab label="Documentation" />
+              <Tab label="Case Study" />
+              <Tab label="Get Demo" />
             </Tabs>
           </Box>
 
@@ -81,7 +88,22 @@ function App() {
             <GuideBot activeTab={activeTab} />
             <GoogleSheetPreview />
           </TabPanel>
+
+          <TabPanel value={activeTab} index={4}>
+            <Documentation />
+          </TabPanel>
+
+          <TabPanel value={activeTab} index={5}>
+            <CaseStudy />
+          </TabPanel>
+
+          <TabPanel value={activeTab} index={6}>
+            <CTASection />
+          </TabPanel>
         </Container>
+
+        {/* Floating CTA Buttons - Visible on all pages */}
+        <FloatingCTA />
       </Box>
     </ThemeProvider>
   );

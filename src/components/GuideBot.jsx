@@ -38,6 +38,18 @@ const GuideBot = ({ activeTab }) => {
       title: 'Step 4: Export to Google Sheets',
       message: "Your leads displayed in spreadsheet format. Sync data, export to CSV, or integrate with Google Sheets API for team collaboration.",
       action: "Export your leads now →",
+    },
+    4: {
+      emoji: '📚',
+      title: 'Step 5: Documentation & Contact',
+      message: "View complete system workflow, see how we solve real property dealer problems, and download documentation as PDF. Get in touch for more information!",
+      action: "Download PDF documentation →",
+    },
+    5: {
+      emoji: '🚀',
+      title: 'Get Free Demo',
+      message: "Try our AI assistant, schedule a demo call, or contact us directly. Experience the power of AI-driven property management!",
+      action: "Try AI assistant or schedule a call →",
     }
   };
 
